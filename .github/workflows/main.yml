@@ -27,7 +27,6 @@ jobs:
     - id: compile
       name: "Compile TypeScript to JavaScript"
       run: npm run build
-      run: npm run build
     - id: distribuite
       name: Distribuite
       uses: xeeynamo/action-distribute@develop
