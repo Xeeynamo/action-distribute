@@ -13,7 +13,7 @@ function call<T>(command: string, callback: (stdout: string) => T): Promise<T> {
         exec(command, (err, stdout, stderr) => {
             const result = callback(stdout)
             if (!result)
-                core.error(`Command ${command} failed with the following output:\n${stdout}`)
+                core.error(`Command ${command} failed with the following output:\nSTDOUT:${stdout}\nSTDERR:${stderr}`)
 
             resolve(result)
         }))

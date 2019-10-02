@@ -19,7 +19,7 @@ function call(command, callback) {
     return new Promise((resolve, _) => child_process_1.exec(command, (err, stdout, stderr) => {
         const result = callback(stdout);
         if (!result)
-            core.error(`Command ${command} failed with the following output:\n${stdout}`);
+            core.error(`Command ${command} failed with the following output:\nSTDOUT:${stdout}\nSTDERR:${stderr}`);
         resolve(result);
     }));
 }

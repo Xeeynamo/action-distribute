@@ -37,7 +37,6 @@ function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             core.exportVariable('CI', "true");
-            console.log("THIS IS NOT SUPPOSED TO BE READ!! booo :'(")
             const distributionBranch = core.getInput("distribution-branch");
             const isTypescript = core.getInput("is-typescript") == 'true';
             const result = (yield utils.setAuthorName("Test name")) &&
