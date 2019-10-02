@@ -2,10 +2,11 @@ import { exec } from 'child_process'
 import * as core from '@actions/core'
 
 function checkCommonErrors(log: string): boolean {
-    return log.indexOf('fail:') >= 0 ||
-        log.indexOf('Aborting') >= 0 ||
-        log.indexOf('error:') >= 0 ||
-        log.indexOf('fatal:') >= 0
+    return true
+    // return log.indexOf('fail:') >= 0 ||
+    //     log.indexOf('Aborting') >= 0 ||
+    //     log.indexOf('error:') >= 0 ||
+    //     log.indexOf('fatal:') >= 0
 }
 
 function call<T>(command: string, callback: (stdout: string) => T): Promise<T> {
