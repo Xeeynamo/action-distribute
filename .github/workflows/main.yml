@@ -16,6 +16,9 @@ jobs:
     - id: install
       name: "Install NPM packages"
       run: npm install
+    - id: gain-permissions
+      name: "Gain execution permissions"
+      run: chmod -R u+rwx .
     - id: test
       name: "Execute tests"
       env:
@@ -23,7 +26,8 @@ jobs:
       run: npm test
     - id: compile
       name: "Compile TypeScript to JavaScript"
-      run: ./node_modules/.bin/tsc
+      run: npm run build
+      run: npm run build
     - id: distribuite
       name: Distribuite
       uses: xeeynamo/action-distribute@develop
