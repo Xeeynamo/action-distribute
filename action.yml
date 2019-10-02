@@ -1,0 +1,13 @@
+name: 'Actions distribuite'
+inputs:
+  distribution-branch:
+    description: 'Branch to distribuite the binaries'
+    required: false
+    default: 'latest'
+  is-typescript:
+    description: 'Execute additional code if the source uses typescript'
+    required: false
+    default: 'true'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
