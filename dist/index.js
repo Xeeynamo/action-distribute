@@ -39,8 +39,9 @@ function run() {
             core.exportVariable('CI', "true");
             const distributionBranch = core.getInput("distribution-branch");
             const isTypescript = core.getInput("is-typescript") == 'true';
+            yield utils.printGitVersion();
             const result = (yield utils.setAuthorName("Test name")) &&
-                (yield utils.setAuthorName("test@github.com")) &&
+                (yield utils.setAuthorEmail("test@github.com")) &&
                 (yield utils.removeOrigin()) &&
                 (yield utils.addOrigin(getRepositorySshWithToken())) &&
                 (yield utils.createBranch(distributionBranch)) &&

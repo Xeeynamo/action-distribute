@@ -10,10 +10,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const child_process_1 = require("child_process");
 const core = __importStar(require("@actions/core"));
 function checkCommonErrors(log) {
-    return log.indexOf('fail:') >= 0 ||
-        log.indexOf('Aborting') >= 0 ||
-        log.indexOf('error:') >= 0 ||
-        log.indexOf('fatal:') >= 0;
+    return true;
+    // return log.indexOf('fail:') >= 0 ||
+    //     log.indexOf('Aborting') >= 0 ||
+    //     log.indexOf('error:') >= 0 ||
+    //     log.indexOf('fatal:') >= 0
 }
 function call(command, callback) {
     return new Promise((resolve, _) => child_process_1.exec(command, (err, stdout, stderr) => {
@@ -23,6 +24,12 @@ function call(command, callback) {
         resolve(result);
     }));
 }
+function printGitVersion() {
+    return call(`git --version`, stdout => {
+        console.log(`GIT VERSION:\n${stdout}`);
+    });
+}
+exports.printGitVersion = printGitVersion;
 function createBranch(name) {
     return call(`git checkout -B ${name}`, stdout => {
         if (stdout.indexOf("Switched to a new branch") == 0)
@@ -68,13 +75,13 @@ function addOrigin(url) {
 }
 exports.addOrigin = addOrigin;
 function setAuthorName(name) {
-    return call(`git config --global user.name "${name}"`, stdout => {
+    return call(`git config user.name "${name}"`, stdout => {
         return checkCommonErrors(stdout);
     });
 }
 exports.setAuthorName = setAuthorName;
 function setAuthorEmail(email) {
-    return call(`git config --global user.email "${email}"`, stdout => {
+    return call(`git config user.email "${email}"`, stdout => {
         return checkCommonErrors(stdout);
     });
 }

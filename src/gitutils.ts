@@ -73,13 +73,13 @@ export function addOrigin(url: string): Promise<boolean> {
 }
 
 export function setAuthorName(name: string): Promise<boolean> {
-    return call(`git config --global user.name "${name}"`, stdout => {
+    return call(`git config user.name "${name}"`, stdout => {
         return checkCommonErrors(stdout)
     })
 }
 
 export function setAuthorEmail(email: string): Promise<boolean> {
-    return call(`git config --global user.email "${email}"`, stdout => {
+    return call(`git config user.email "${email}"`, stdout => {
         return checkCommonErrors(stdout)
     })
 }
