@@ -48,7 +48,7 @@ function commit(message) {
     return call(`git commit -m "${message}"`, stdout => {
         if (stdout.indexOf("create mode") >= 0)
             return true;
-        if (stdout.indexOf("Aborting") == 0 ||
+        if (stdout.indexOf("Aborting commit") == 0 ||
             stdout.indexOf("error") == 0 ||
             stdout.indexOf("fatal") == 0)
             return false;
