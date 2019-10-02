@@ -31,9 +31,11 @@ async function run() {
         const distributionBranch = core.getInput("distribution-branch")
         const isTypescript = core.getInput("is-typescript") == 'true'
 
+        utils.printGitVersion()
+
         const result =
             await utils.setAuthorName("Test name") &&
-            await utils.setAuthorName("test@github.com") &&
+            await utils.setAuthorEmail("test@github.com") &&
             await utils.removeOrigin() &&
             await utils.addOrigin(getRepositorySshWithToken()) &&
             await utils.createBranch(distributionBranch) &&

@@ -19,6 +19,12 @@ function call<T>(command: string, callback: (stdout: string) => T): Promise<T> {
         }))
 }
 
+export function printGitVersion(): Promise<void> {
+    return call(`git --version`, stdout => {
+        console.log(`GIT VERSION:\n${stdout}`)
+    })
+}
+
 export function createBranch(name: string): Promise<boolean> {
     return call(`git checkout -B ${name}`, stdout => {
         if (stdout.indexOf("Switched to a new branch") == 0)
