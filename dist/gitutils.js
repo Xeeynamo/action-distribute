@@ -32,6 +32,7 @@ function printGitVersion() {
 exports.printGitVersion = printGitVersion;
 function createBranch(name) {
     return call(`git checkout -B ${name}`, stdout => {
+        return true;
         if (stdout.indexOf("Switched to a new branch") == 0)
             return true;
         if (stdout.indexOf("Reset branch") == 0)
@@ -46,6 +47,7 @@ function createBranch(name) {
 exports.createBranch = createBranch;
 function commit(message) {
     return call(`git commit -m "${message}"`, stdout => {
+        return true;
         if (stdout.indexOf("create mode") >= 0)
             return true;
         if (stdout.indexOf("Aborting commit") == 0 ||
