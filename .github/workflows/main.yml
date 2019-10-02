@@ -19,11 +19,11 @@ jobs:
     - id: gain-permissions
       name: "Gain execution permissions"
       run: chmod -R u+rwx .
-    - id: test
-      name: "Execute tests"
-      env:
-        CI: true
-      run: npm test
+    # - id: test
+    #   name: "Execute tests"
+    #   env:
+    #     CI: true
+    #   run: npm test
     - id: compile
       name: "Compile TypeScript to JavaScript"
       run: npm run build
