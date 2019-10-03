@@ -42,6 +42,7 @@ async function run() {
             await utils.installNpmDevPackage('@zeit/ncc') &&
             await utils.nccBuild('./dist') &&
             // TODO: Remove everything but dist/ and action.yml
+            await utils.gitAdd(".") &&
             await utils.commit("Distribute") &&
             await utils.push(distributionBranch)
 
