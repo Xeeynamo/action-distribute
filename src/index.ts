@@ -22,7 +22,7 @@ function getRepositorySshWithToken(): string {
     const repoUri = getRepositorySsh()
     const token = getGithubToken()
 
-    return repoUri.replace('git@', `https://x-access-token:${token}@`)
+    return repoUri.replace('git@', `https://${token}@`)
 }
 
 async function run() {

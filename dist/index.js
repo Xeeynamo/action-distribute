@@ -31,7 +31,7 @@ function getGithubToken() {
 function getRepositorySshWithToken() {
     const repoUri = getRepositorySsh();
     const token = getGithubToken();
-    return repoUri.replace('git@', `https://x-access-token:${token}@`);
+    return repoUri.replace('git@', `https://${token}@`);
 }
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
