@@ -39,8 +39,8 @@ async function run() {
             await utils.createBranch(distributionBranch) &&
             await utils.npmInstall() &&
             (isTypescript == false || (isTypescript && await utils.tsc())) &&
-            await utils.installNcc() &&
-            await utils.ncc('./dist') &&
+            await utils.installNpmDevPackage('@zeit/ncc') &&
+            await utils.nccBuild('./dist') &&
             // TODO: Remove everything but dist/ and action.yml
             await utils.commit("Distribute") &&
             await utils.push(distributionBranch)

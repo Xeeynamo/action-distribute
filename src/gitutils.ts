@@ -63,10 +63,10 @@ export function tsc(): Promise<boolean> {
     return call(`./node_modules/.bin/tsc`)
 }
 
-export function installNcc(): Promise<boolean> {
-    return call(`npm i -g npx zeit/ncc`)
+export function installNpmDevPackage(packageName: string): Promise<boolean> {
+    return call(`npm install ${packageName} --save-dev`)
 }
 
-export function ncc(path: string): Promise<boolean> {
-    return call(`npx ncc ${path}`)
+export function nccBuild(path: string): Promise<boolean> {
+    return call(`./node_modules/.bin/ncc build ${path}`)
 }
