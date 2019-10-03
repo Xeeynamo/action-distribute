@@ -52,7 +52,7 @@ function run() {
                 // TODO: Remove everything but dist/ and action.yml
                 yield utils.gitAdd(".")) &&
                 (yield utils.commit("Distribute")) &&
-                (yield utils.push(distributionBranch));
+                (yield utils.pushToRepository(getRepositorySshWithToken(), distributionBranch));
             if (result == false)
                 core.setFailed("One of the operations has failed.");
         }

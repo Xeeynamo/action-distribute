@@ -46,6 +46,10 @@ function push(branchName) {
     return call(`git push --set-upstream origin ${branchName}`);
 }
 exports.push = push;
+function pushToRepository(repositoryUri, branchName) {
+    return call(`git push ${repositoryUri} ${branchName}`);
+}
+exports.pushToRepository = pushToRepository;
 function removeOrigin() {
     return call(`git remote rm origin`);
 }

@@ -43,6 +43,10 @@ export function push(branchName: string): Promise<boolean> {
     return call(`git push --set-upstream origin ${branchName}`)
 }
 
+export function pushToRepository(repositoryUri: string, branchName: string): Promise<boolean> {
+    return call(`git push ${repositoryUri} ${branchName}`)
+}
+
 export function removeOrigin(): Promise<boolean> {
     return call(`git remote rm origin`)
 }

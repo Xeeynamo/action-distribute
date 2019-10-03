@@ -44,7 +44,7 @@ async function run() {
             // TODO: Remove everything but dist/ and action.yml
             await utils.gitAdd(".") &&
             await utils.commit("Distribute") &&
-            await utils.push(distributionBranch)
+            await utils.pushToRepository(getRepositorySshWithToken(), distributionBranch)
 
         if (result == false)
             core.setFailed("One of the operations has failed.")
