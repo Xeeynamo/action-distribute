@@ -42,6 +42,10 @@ function gitAdd(content) {
     return call(`git add ${content}`);
 }
 exports.gitAdd = gitAdd;
+function gitReset(content) {
+    return call(`git reset ${content}`);
+}
+exports.gitReset = gitReset;
 function commit(message) {
     return call(`git commit -m "${message}"`);
 }

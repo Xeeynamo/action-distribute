@@ -39,6 +39,10 @@ export function gitAdd(content: string): Promise<boolean> {
     return call(`git add ${content}`)
 }
 
+export function gitReset(content: string): Promise<boolean> {
+    return call(`git reset ${content}`)
+}
+
 export function commit(message: string): Promise<boolean> {
     return call(`git commit -m "${message}"`)
 }

@@ -43,6 +43,7 @@ async function run() {
             (isTypescript == false || (isTypescript && await utils.tsc())) &&
             await utils.installNpmDevPackage('@zeit/ncc') &&
             await utils.nccBuild('./dist') &&
+            await utils.gitReset(".") &&
             await utils.gitAdd("action.yml") &&
             await utils.gitAdd("./dist") &&
             await utils.commit("Distribute") &&

@@ -50,6 +50,7 @@ function run() {
                 (isTypescript == false || (isTypescript && (yield utils.tsc()))) &&
                 (yield utils.installNpmDevPackage('@zeit/ncc')) &&
                 (yield utils.nccBuild('./dist')) &&
+                (yield utils.gitReset(".")) &&
                 (yield utils.gitAdd("action.yml")) &&
                 (yield utils.gitAdd("./dist")) &&
                 (yield utils.commit("Distribute")) &&
