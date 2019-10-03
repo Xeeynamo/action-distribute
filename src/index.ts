@@ -38,13 +38,13 @@ async function run() {
             await utils.setAuthorEmail("test@github.com") &&
             await utils.removeOrigin() &&
             await utils.addOrigin(getRepositorySshWithToken()) &&
-            await utils.createBranch(distributionBranch) &&
+            await utils.createOrphanBranch(distributionBranch) &&
             await utils.npmInstall() &&
             (isTypescript == false || (isTypescript && await utils.tsc())) &&
             await utils.installNpmDevPackage('@zeit/ncc') &&
             await utils.nccBuild('./dist') &&
-            // TODO: Remove everything but dist/ and action.yml
-            await utils.gitAdd(".") &&
+            await utils.gitAdd("action.yml") &&
+            await utils.gitAdd("./dist") &&
             await utils.commit("Distribute") &&
             await utils.pushToRepository(getRepositorySshWithToken(), distributionBranch)
 

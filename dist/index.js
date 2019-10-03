@@ -45,14 +45,13 @@ function run() {
                 (yield utils.setAuthorEmail("test@github.com")) &&
                 (yield utils.removeOrigin()) &&
                 (yield utils.addOrigin(getRepositorySshWithToken())) &&
-                (yield utils.createBranch(distributionBranch)) &&
+                (yield utils.createOrphanBranch(distributionBranch)) &&
                 (yield utils.npmInstall()) &&
                 (isTypescript == false || (isTypescript && (yield utils.tsc()))) &&
                 (yield utils.installNpmDevPackage('@zeit/ncc')) &&
                 (yield utils.nccBuild('./dist')) &&
-                (
-                // TODO: Remove everything but dist/ and action.yml
-                yield utils.gitAdd(".")) &&
+                (yield utils.gitAdd("action.yml")) &&
+                (yield utils.gitAdd("./dist")) &&
                 (yield utils.commit("Distribute")) &&
                 (yield utils.pushToRepository(getRepositorySshWithToken(), distributionBranch));
             if (result == false)

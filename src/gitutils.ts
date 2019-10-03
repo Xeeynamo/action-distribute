@@ -31,6 +31,10 @@ export function createBranch(name: string): Promise<boolean> {
     return call(`git checkout -B ${name}`)
 }
 
+export function createOrphanBranch(name: string): Promise<boolean> {
+    return call(`git checkout --orphan ${name}`)
+}
+
 export function gitAdd(content: string): Promise<boolean> {
     return call(`git add ${content}`)
 }

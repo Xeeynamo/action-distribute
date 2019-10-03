@@ -34,6 +34,10 @@ function createBranch(name) {
     return call(`git checkout -B ${name}`);
 }
 exports.createBranch = createBranch;
+function createOrphanBranch(name) {
+    return call(`git checkout --orphan ${name}`);
+}
+exports.createOrphanBranch = createOrphanBranch;
 function gitAdd(content) {
     return call(`git add ${content}`);
 }
