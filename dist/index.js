@@ -41,8 +41,13 @@ function run() {
             core.exportVariable('CI', "true");
             const distributionBranch = core.getInput("distribution-branch");
             const isTypescript = core.getInput("is-typescript") == 'true';
-            const result = (yield utils.setAuthorName("Test name")) &&
-                (yield utils.setAuthorEmail("test@github.com")) &&
+            const author = getLastAuthor() || {
+                email: "actions@github.com",
+                name: "Actions",
+                username: "actions"
+            };
+            const result = (yield utils.setAuthorName(author.name)) &&
+                (yield utils.setAuthorEmail(author.email)) &&
                 (yield utils.removeOrigin()) &&
                 (yield utils.addOrigin(getRepositorySshWithToken())) &&
                 (yield utils.createOrphanBranch(distributionBranch)) &&
