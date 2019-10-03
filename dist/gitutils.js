@@ -18,9 +18,13 @@ function checkCommonErrors(log) {
 }
 function call(command, callback) {
     return new Promise((resolve, _) => child_process_1.exec(command, (err, stdout, stderr) => {
+        core.startGroup(command);
+        console.log(stdout);
+        core.warning(stderr);
         const result = callback(stdout);
-        if (!result)
-            core.error(`Command ${command} failed with the following output:\nSTDOUT:${stdout}\nSTDERR:${stderr}`);
+        // if (!result)
+        //     core.error(`Command ${command} failed with the following output:\nSTDOUT:${stdout}\nSTDERR:${stderr}`)
+        core.endGroup();
         resolve(result);
     }));
 }

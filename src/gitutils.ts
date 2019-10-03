@@ -12,10 +12,16 @@ function checkCommonErrors(log: string): boolean {
 function call<T>(command: string, callback: (stdout: string) => T): Promise<T> {
     return new Promise((resolve, _) =>
         exec(command, (err, stdout, stderr) => {
-            const result = callback(stdout)
-            if (!result)
-                core.error(`Command ${command} failed with the following output:\nSTDOUT:${stdout}\nSTDERR:${stderr}`)
+            core.startGroup(command)
 
+            console.log(stdout)
+            core.warning(stderr)
+
+            const result = callback(stdout)
+            // if (!result)
+            //     core.error(`Command ${command} failed with the following output:\nSTDOUT:${stdout}\nSTDERR:${stderr}`)
+
+            core.endGroup()
             resolve(result)
         }))
 }
@@ -46,7 +52,7 @@ export function createBranch(name: string): Promise<boolean> {
 export function commit(message: string): Promise<boolean> {
     return call(`git commit -m "${message}"`, stdout => {
         return true
-        
+
         if (stdout.indexOf("create mode") >= 0)
             return true
         if (stdout.indexOf("Aborting commit") == 0 ||
