@@ -21,8 +21,11 @@ function call(command, callback) {
     return new Promise((resolve, _) => child_process_1.exec(command, (err, stdout, stderr) => {
         core.startGroup(command);
         const result = callback ? callback(stderr) : !isError(stderr);
+        core.debug(stdout);
         if (!result)
             core.error(`Command ${command} failed with the following output:\n${stderr}`);
+        else
+            core.info(stderr);
         core.endGroup();
         resolve(result);
     }));

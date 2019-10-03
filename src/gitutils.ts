@@ -16,8 +16,11 @@ function call(command: string, callback?: (stdout: string) => boolean): Promise<
             core.startGroup(command)
 
             const result = callback ? callback(stderr) : !isError(stderr)
+            core.debug(stdout)
             if (!result)
                 core.error(`Command ${command} failed with the following output:\n${stderr}`)
+            else
+                core.info(stderr)
 
             core.endGroup()
             resolve(result)
