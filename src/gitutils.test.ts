@@ -29,17 +29,17 @@ describe('Git utilities', () => {
         });
 
         [
-            { stdout: "Switched to a new branch 'release/test'", expect: true },
-            { stdout: "Switched to a new branch 'something'", expect: true },
-            { stdout: "Reset branch 'some-random-branch'", expect: true },
-            { stdout: "error: switch `B' requires a value", expect: false },
-            { stdout: "fatal: 'invalid name' is not a valid branch name.", expect: false },
-            { stdout: "fatal: anything that contains fatal really...", expect: false },
-            { stdout: "nope.", expect: false }
+            { stderr: "Switched to a new branch 'release/test'", expect: true },
+            { stderr: "Switched to a new branch 'something'", expect: true },
+            { stderr: "Reset branch 'some-random-branch'", expect: true },
+            { stderr: "error: switch `B' requires a value", expect: false },
+            { stderr: "fatal: 'invalid name' is not a valid branch name.", expect: false },
+            { stderr: "fatal: anything that contains fatal really...", expect: false },
+            { stderr: "yep.", expect: true }
         ].forEach(x => {
-            it(`should return ${x.expect} if git returns ${x.stdout}`, async () => {
+            it(`should return ${x.expect} if git returns ${x.stderr}`, async () => {
                 (child_process.exec as any).mockImplementation((command, callback) =>
-                    callback(null, x.stdout))
+                callback(null, "", x.stderr))
 
                 const actual = await gitutils.createBranch("anything")
                 expect(actual).toBe(x.expect)
@@ -62,13 +62,13 @@ describe('Git utilities', () => {
         });
 
         [
-            { stdout: "[master (root-commit) 040f5e2] a\n 1 file changed\n create mode 100644 foo", expect: true },
-            { stdout: "Aborting commit due to empty commit message", expect: false },
-            { stdout: "nope.", expect: false }
+            { stderr: "[master (root-commit) 040f5e2] a\n 1 file changed\n create mode 100644 foo", expect: true },
+            { stderr: "Aborting commit due to empty commit message", expect: false },
+            { stderr: "yep.", expect: true }
         ].forEach(x => {
-            it(`should return ${x.expect} if git returns ${x.stdout}`, async () => {
+            it(`should return ${x.expect} if git returns ${x.stderr}`, async () => {
                 (child_process.exec as any).mockImplementation((command, callback) =>
-                    callback(null, x.stdout))
+                    callback(null, "", x.stderr))
 
                 const actual = await gitutils.commit("anything")
                 expect(actual).toBe(x.expect)

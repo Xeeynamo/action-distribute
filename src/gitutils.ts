@@ -1,119 +1,69 @@
 import { exec } from 'child_process'
 import * as core from '@actions/core'
 
-function checkCommonErrors(log: string): boolean {
-    return true
-    // return log.indexOf('fail:') >= 0 ||
-    //     log.indexOf('Aborting') >= 0 ||
-    //     log.indexOf('error:') >= 0 ||
-    //     log.indexOf('fatal:') >= 0
+function isError(log: string): boolean {
+    return log.indexOf('fail:') >= 0 ||
+        log.indexOf('Aborting') >= 0 ||
+        log.indexOf('error:') >= 0 ||
+        log.indexOf('fatal:') >= 0 ||
+        log.indexOf('npm ERR!') >= 0 ||
+        log.indexOf('command not found:') >= 0
 }
 
-function call<T>(command: string, callback: (stdout: string) => T): Promise<T> {
+function call(command: string, callback?: (stdout: string) => boolean): Promise<boolean> {
     return new Promise((resolve, _) =>
         exec(command, (err, stdout, stderr) => {
             core.startGroup(command)
 
-            console.log(stdout)
-            core.warning(stderr)
-
-            const result = callback(stdout)
-            // if (!result)
-            //     core.error(`Command ${command} failed with the following output:\nSTDOUT:${stdout}\nSTDERR:${stderr}`)
+            const result = callback ? callback(stderr) : !isError(stderr)
+            if (!result)
+                core.error(`Command ${command} failed with the following output:\n${stderr}`)
 
             core.endGroup()
             resolve(result)
         }))
 }
 
-export function printGitVersion(): Promise<void> {
-    return call(`git --version`, stdout => {
-        console.log(`GIT VERSION:\n${stdout}`)
-    })
-}
-
 export function createBranch(name: string): Promise<boolean> {
-    return call(`git checkout -B ${name}`, stdout => {
-        return true
-
-        if (stdout.indexOf("Switched to a new branch") == 0)
-            return true
-        if (stdout.indexOf("Reset branch") == 0)
-            return true
-        if (stdout.indexOf("error:") == 0)
-            return false
-        if (stdout.indexOf("fatal:") == 0)
-            return false
-
-        return false
-    })
+    return call(`git checkout -B ${name}`)
 }
 
 export function commit(message: string): Promise<boolean> {
-    return call(`git commit -m "${message}"`, stdout => {
-        return true
-
-        if (stdout.indexOf("create mode") >= 0)
-            return true
-        if (stdout.indexOf("Aborting commit") == 0 ||
-            stdout.indexOf("error") == 0 ||
-            stdout.indexOf("fatal") == 0)
-            return false
-
-        return false
-    })
+    return call(`git commit -m "${message}"`)
 }
 
 export function push(branchName: string): Promise<boolean> {
-    return call(`git push --set-upstream origin ${branchName}`, stdout => {
-        return checkCommonErrors(stdout)
-    })
+    return call(`git push --set-upstream origin ${branchName}`)
 }
 
 export function removeOrigin(): Promise<boolean> {
-    return call(`git remote rm origin`, stdout => {
-        return checkCommonErrors(stdout)
-    })
+    return call(`git remote rm origin`)
 }
 
 export function addOrigin(url: string): Promise<boolean> {
-    return call(`git remote add origin ${url}`, stdout => {
-        return checkCommonErrors(stdout)
-    })
+    return call(`git remote add origin ${url}`)
 }
 
 export function setAuthorName(name: string): Promise<boolean> {
-    return call(`git config user.name "${name}"`, stdout => {
-        return checkCommonErrors(stdout)
-    })
+    return call(`git config user.name "${name}"`)
 }
 
 export function setAuthorEmail(email: string): Promise<boolean> {
-    return call(`git config user.email "${email}"`, stdout => {
-        return checkCommonErrors(stdout)
-    })
+    return call(`git config user.email "${email}"`)
 }
 
 export function npmInstall(): Promise<boolean> {
-    return call(`npm install`, stdout => {
-        return checkCommonErrors(stdout)
-    })
+    return call(`npm install`)
 }
 
 export function tsc(): Promise<boolean> {
-    return call(`./node_modules/.bin/tsc`, stdout => {
-        return true
-    })
+    return call(`./node_modules/.bin/tsc`)
 }
 
 export function installNcc(): Promise<boolean> {
-    return call(`npm i -g npx zeit/ncc`, (stdout: string) => {
-        return checkCommonErrors(stdout)
-    })
+    return call(`npm i -g npx zeit/ncc`)
 }
 
 export function ncc(path: string): Promise<boolean> {
-    return call(`npx ncc ${path}`, (stdout: string) => {
-        return checkCommonErrors(stdout)
-    })
+    return call(`npx ncc ${path}`)
 }
