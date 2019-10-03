@@ -46,11 +46,12 @@ function run() {
                 (yield utils.createBranch(distributionBranch)) &&
                 (yield utils.npmInstall()) &&
                 (isTypescript == false || (isTypescript && (yield utils.tsc()))) &&
-                (yield utils.installNcc()) &&
-                (yield utils.ncc('./dist')) &&
+                (yield utils.installNpmDevPackage('@zeit/ncc')) &&
+                (yield utils.nccBuild('./dist')) &&
                 (
                 // TODO: Remove everything but dist/ and action.yml
-                yield utils.commit("Distribute")) &&
+                yield utils.gitAdd(".")) &&
+                (yield utils.commit("Distribute")) &&
                 (yield utils.push(distributionBranch));
             if (result == false)
                 core.setFailed("One of the operations has failed.");

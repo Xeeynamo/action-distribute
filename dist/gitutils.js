@@ -34,6 +34,10 @@ function createBranch(name) {
     return call(`git checkout -B ${name}`);
 }
 exports.createBranch = createBranch;
+function gitAdd(content) {
+    return call(`git add ${content}`);
+}
+exports.gitAdd = gitAdd;
 function commit(message) {
     return call(`git commit -m "${message}"`);
 }
@@ -66,11 +70,11 @@ function tsc() {
     return call(`./node_modules/.bin/tsc`);
 }
 exports.tsc = tsc;
-function installNcc() {
-    return call(`npm i -g npx zeit/ncc`);
+function installNpmDevPackage(packageName) {
+    return call(`npm install ${packageName} --save-dev`);
 }
-exports.installNcc = installNcc;
-function ncc(path) {
-    return call(`npx ncc ${path}`);
+exports.installNpmDevPackage = installNpmDevPackage;
+function nccBuild(path) {
+    return call(`./node_modules/.bin/ncc build ${path}`);
 }
-exports.ncc = ncc;
+exports.nccBuild = nccBuild;
